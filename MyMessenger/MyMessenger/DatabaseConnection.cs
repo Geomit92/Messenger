@@ -1,0 +1,387 @@
+﻿using System;
+using System.Collections.Generic;
+using Dapper;
+using System.Data.SqlClient;
+using System.Threading;
+
+namespace MyMessenger
+{
+    class DatabaseConnection
+    {
+        #region Messages And Database
+
+        private static string connectionstring = Properties.Settings.Default.connectionstring;
+        
+
+        // "server=laptop-geomit\\sqlexpress;database=Private_Messenger; trusted_connection = true;";
+
+        internal static void EditMessageDB(int ID, string Message)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var NewQuerry = dbcon.Execute("UPDATE Messages SET UserMessage = @UserMessage WHERE MessageID = @MessageID",
+                    new
+                    {
+                        UserMessage = Message,
+                        MessageId = ID
+                    });
+            }
+
+            Console.WriteLine("Message Edited.");
+        }
+
+        internal static bool CheckIDMessage(int ID, string user)
+        {
+            var IDMessage = new List<MessagesActions>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                IDMessage.AddRange(dbcon.Query<MessagesActions>("SELECT * FROM Messages WHERE Sender=@Sender",
+                    new
+                    {
+                        Sender = user,
+                    }));
+            }
+
+            foreach (var m in IDMessage)
+            {
+                while (m.MessageID.Equals(ID))
+                {
+                    return true;
+                }
+            }
+
+            Console.WriteLine("Wrong ID. Try Again...");
+            return false;
+        }
+
+        internal void SendMessageDB(string UserMessage, string Sender, string Receiver)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var NewQuerry = dbcon.Execute("insert into Messages values(@Date,@Sender, @Receiver, @UserMessage, @Deleted)",
+                    new
+                    {
+                        Date = DateTime.Now,
+                        Sender = Sender,
+                        Receiver = Receiver,
+                        UserMessage = UserMessage,
+                        Deleted = 0,
+                    });
+            }
+
+            TxtAccess.FileCreation(Sender, Receiver, UserMessage);
+
+            Console.WriteLine("Your Message Send Successfully");
+            WelcomeScreen.ConsoleClear();
+        }
+
+        internal static void ViewMessageDB(string Sender)
+        {
+            var SendMessage = new List<MessagesActions>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                SendMessage.AddRange(dbcon.Query<MessagesActions>("SELECT * FROM Messages WHERE Receiver=@Receiver",
+                    new
+                    {
+                        Receiver = Sender,
+                    }));
+            }
+            if (SendMessage.Count == 0)
+            {
+                Console.WriteLine("No Message Loaded.");
+                Thread.Sleep(2500);
+            }
+            else
+            {
+                foreach (var m in SendMessage)
+                {
+                    if (m.Deleted == false)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.WriteLine($"{m.Sender} Send you:");
+                        Console.ResetColor();
+                        Console.WriteLine($"{m.UserMessage} \nAt {m.Date.ToString("dd/MM HH:mm")}\n");
+                    }
+                }
+            }
+        }
+
+        internal static void ViewMessageWithIdDB(string user)
+        {
+            var ViewMessage = new List<MessagesActions>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                ViewMessage.AddRange(dbcon.Query<MessagesActions>("SELECT * FROM Messages WHERE Sender=@Sender",
+                    new
+                    {
+                        Sender = user,
+                    }));
+            }
+            if (ViewMessage.Count == 0)
+            {
+                Console.WriteLine("No Messages Loaded");
+            }
+            else
+            {
+                foreach (var m in ViewMessage)
+                {
+                    Console.WriteLine($"ID:{m.MessageID}: {m.Sender} Send: \n{m.UserMessage} \nAt {m.Receiver}\n");
+                }
+            }
+        }
+
+        internal static bool ViewForZeroMessage(string user)
+        {
+            var ViewMessage = new List<MessagesActions>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                ViewMessage.AddRange(dbcon.Query<MessagesActions>("SELECT * FROM Messages WHERE Sender=@Sender",
+                    new
+                    {
+                        Sender = user,
+                    }));
+            }
+
+            if (ViewMessage.Count == 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal static void DeleteMessageDB(int ID)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var NewQuerry = dbcon.Execute("UPDATE Messages SET Deleted = @Deleted WHERE MessageID = @MessageID",
+                    new
+                    {
+                        Deleted = 1,
+                        MessageId = ID
+                    });
+            }
+
+            Console.WriteLine("Message Deleted");
+            WelcomeScreen.ConsoleClear();
+        }
+
+        #endregion
+
+        #region Users And Database
+
+        internal static string CheckUserRole(string LogedUser)
+        {
+            var users = new List<Users>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users WHERE Username = @Username",
+                    new
+                    {
+                        Username = LogedUser,
+                    }));
+            }
+
+            foreach (var c in users)
+            {
+                return c.Role;
+            }
+            return "Guest";
+        }
+
+        internal static bool CheckUserList(string Username)
+        {
+            var users = new List<Users>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users"));
+            }
+            foreach (var c in users)
+            {
+                if (Username == c.Username && c.Deleted != true) //TO DO na to tsekarw -----------------------------------------
+                {
+                    return false;
+                }
+            }
+            // Console.WriteLine($"User: {Username} Doesn't Exist. Try Again...");
+            return true;
+        }
+
+        internal static bool checkForPassword(string Username, string Password)
+        {
+            var users = new List<Users>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users WHERE Username = @Username",
+                    new
+                    {
+                        Username = Username,
+                    }));
+            }
+            foreach (var u in users)
+            {
+                if (Password == u.Password)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        internal static void CreateUserDB(string NewUsername, string NewPassword)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var NewQuerry = dbcon.Execute("insert into Users values(@username, @password, @Role, @Deleted)",
+                    new
+                    {
+                        Username = NewUsername,
+                        Password = NewPassword,
+                        Role = "Guest",
+                        Deleted = 0,
+
+                    });
+            }
+
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.WriteLine($"User: {NewUsername} Created successfully");
+            Console.ResetColor();
+            Thread.Sleep(2000);
+        }
+
+        internal static void ShowAllUsersDB()
+        {
+            var users = new List<Users>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users"));
+            }
+
+            foreach (var u in users)
+            {
+                if (u.Deleted != true)
+                {
+                    Console.WriteLine($"User: {u.Username}, Role: {u.Role}");
+                }
+            }
+            WelcomeScreen.ConsoleClear();
+        }
+
+        internal static void UsernameWithID(string Username, out int ID)
+        {
+            ID = 0;
+            var users = new List<Users>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users WHERE Username = @Username",
+                    new
+                    {
+                        Username = Username,
+                    }));
+            }
+
+            foreach (var u in users)
+            {
+                ID = u.UsernameID;
+            }
+        }
+
+        internal static void UpdateUsernameDB(string NewUser, int ID)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var NewQuerry = dbcon.Execute("UPDATE Users SET Username = @Username WHERE UsernameID = @UsernameID",
+                    new
+                    {
+                        Username = NewUser,
+                        UsernameID = ID,
+                    });
+            }
+        }
+
+        internal static void UpdateUserPassDB(string Username, string Password)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var users = dbcon.Query("UPDATE Users SET Password = @Password where Username=@Username", new
+                {
+                    Password = Password,
+                    Username = Username,
+
+                });
+            }
+        }
+
+        internal static void DeleteUserDB(string Username)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var NewQuerry = dbcon.Execute("UPDATE Users SET Deleted = @Deleted WHERE Username = @Username",
+                    new
+                    {
+                        Deleted = 1,
+                        Username = Username
+                    });
+            }
+        }
+
+        internal static void UpdateUserRoleDB(string Username, string Role)
+        {
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                var NewQuerry = dbcon.Execute("UPDATE Users SET Role = @Role WHERE Username = @Username",
+                    new
+                    {
+                        Role = Role,
+                        Username = Username,
+                    });
+            }
+        }
+
+        #endregion
+
+        internal static bool CheckAvailableName(string NewUsername)
+        {
+            Console.BackgroundColor = ConsoleColor.Red;
+
+            var Usernamelist = new List<Users>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                Usernamelist.AddRange(dbcon.Query<Users>("SELECT Username FROM Users"));
+            }
+
+            foreach (var c in Usernamelist)
+            {
+                if (NewUsername == c.Username)
+                {
+                    Console.WriteLine("This Username Already Taken. Try Again...");
+                    Console.ResetColor();
+                    return true;
+                }
+                else if (NewUsername.Contains(" "))
+                {
+                    Console.WriteLine("Username Cannot Contain whiteSpaces");
+                    Console.ResetColor();
+                    return true;
+                }
+                else if (NewUsername.Length < 5 || NewUsername.Length > 10)
+                {
+                    Console.WriteLine("Username must between 5 and 10 Characters. Try Again...");
+                    Console.ResetColor();
+                    return true;
+                }
+            }
+            Console.ResetColor();
+            return false;
+        }
+    }
+}
