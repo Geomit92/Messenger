@@ -6,11 +6,9 @@ namespace MyMessenger
     {
         static void Main(string[] args)
         {
-
-            while(true)
-            {
-                Menus.LoginMenu();
-            }
+            var menus = new Menus();
+            while(menus.LoginMenu())
+            {}
         }
     }
 }

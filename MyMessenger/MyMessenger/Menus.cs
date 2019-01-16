@@ -5,44 +5,40 @@ namespace MyMessenger
 {
     class Menus
     {
-        public static void LoginMenu()
+        public bool LoginMenu()
         {
-        Start:
-            Console.Clear();
-            WelcomeScreen.WelcomeMethod1();
+                Console.Clear();
+                WelcomeScreen.WelcomeMethod1();
 
-            Console.WriteLine("-- Welcome to MITROCOMM --");
-            Console.WriteLine("1. Login");
-            Console.WriteLine("2. Sign Up");
-            Console.WriteLine("3. Exit");
+                Console.WriteLine("-- Welcome to MITROCOMM --");
+                Console.WriteLine("1. Login");
+                Console.WriteLine("2. Sign Up");
+                Console.WriteLine("3. Exit");
 
-            bool SwitchCheck = true;
-            while (SwitchCheck)
+                
+                while (true)
                 switch (Console.ReadLine())
                 {
                     case "1":
                         LoginSignUP.Login();
-                        SwitchCheck = false;
-                        break;
+                        Console.Clear();
+                        return true;
 
                     case "2":
                         LoginSignUP.SignUp();
-                        SwitchCheck = false;
-                        break;
+                        Console.Clear();
+                        return true;
 
                     case "3":
                         Console.WriteLine("Application Will Close...");
                         Thread.Sleep(2500);
                         Environment.Exit(0);
-                        break;
+                        return false;
 
                     default:
                         Console.WriteLine("Your Input dont match , Choose Again...");
                         break;
                 }
-
-            Console.Clear();
-            goto Start;
         }
 
         public static void AdminMenu(string LogedUser)
