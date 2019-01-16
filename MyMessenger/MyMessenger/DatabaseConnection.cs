@@ -11,9 +11,6 @@ namespace MyMessenger
         #region Messages And Database
 
         private static string connectionstring = Properties.Settings.Default.connectionstring;
-        
-
-        // "server=laptop-geomit\\sqlexpress;database=Private_Messenger; trusted_connection = true;";
 
         internal static void EditMessageDB(int ID, string Message)
         {

@@ -5,5 +5,8 @@
     <Setting Name="connectionstring" Type="System.String" Scope="User">
       <Value Profile="(Default)">server=laptop-geomit\sqlexpress;database=Private_Messenger; trusted_connection = true</Value>
     </Setting>
+    <Setting Name="TxtPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\Geomit\source\repos\new_repos\NewRepo\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -35,5 +35,17 @@ namespace MyMessenger.Properties {
                 this["connectionstring"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Geomit\\source\\repos\\new_repos\\NewRepo\\")]
+        public string TxtPath {
+            get {
+                return ((string)(this["TxtPath"]));
+            }
+            set {
+                this["TxtPath"] = value;
+            }
+        }
     }
 }

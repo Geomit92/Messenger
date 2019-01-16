@@ -5,12 +5,11 @@ namespace MyMessenger
 {
     public class TxtAccess
     {
-        private static string TxtPath = @"C:\Users\Geomit\source\repos\";
+        private static string TxtPath = Properties.Settings.Default.TxtPath;
 
         public static void FileCreation(string sender,string receiver,string message)
         {
-            string TxtTittle = $"{sender} send to {receiver} Message.txt";
-
+            string TxtTittle = $"{sender} send to {receiver}.txt";
 
             if (!File.Exists(TxtPath + TxtTittle))
             {

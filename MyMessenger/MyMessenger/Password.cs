@@ -64,7 +64,7 @@ namespace MyMessenger
 
         public static string HidePassword()
         {
-            string pass = "";
+            string pass = null;
             ConsoleKeyInfo key;
             do
             {

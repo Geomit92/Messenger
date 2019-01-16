@@ -52,12 +52,11 @@ namespace MyMessenger
                 Name = Console.ReadLine();
                 if (Name == "e")
                 {
-                    //goto Restart;
                     return;
                 }
             }
+
             DatabaseConnection.CreateUserDB(Name, Password.PasswordInsert());
-            //Restart:;
         }
 
         public static void InsertUsernamePassword(out string LogedUser)
