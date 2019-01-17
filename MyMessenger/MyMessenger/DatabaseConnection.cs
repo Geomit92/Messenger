@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Dapper;
 using System.Data.SqlClient;
 using System.Threading;
+using System.Linq;
 
 namespace MyMessenger
 {
@@ -200,7 +201,7 @@ namespace MyMessenger
             }
             foreach (var c in users)
             {
-                if (Username == c.Username && c.Deleted == false) //TO DO na to tsekarw -----------------------------------------
+                if (Username == c.Username && c.Deleted == false)
                 {
                     return false;
                 }
@@ -380,5 +381,6 @@ namespace MyMessenger
             Console.ResetColor();
             return false;
         }
+        
     }
 }

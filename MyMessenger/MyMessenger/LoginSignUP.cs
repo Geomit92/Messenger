@@ -10,39 +10,85 @@ namespace MyMessenger
             Console.Clear();
             WelcomeScreen.WelcomeMethod();
 
-            string LogedUser;
+            string logedUser;
+            InsertUsernamePassword(out logedUser);
 
-            InsertUsernamePassword(out LogedUser);
+            var menu = new Menus();
+            while (menu.GeneralMenu(logedUser))
+            { }
 
-            if (DatabaseConnection.CheckUserRole(LogedUser) == "Admin")
+            /*
+            if (DatabaseConnection.CheckUserRole(logedUser) == "Admin")
             {
-                var Menu = new Menus();
-                while (Menu.AdminMenu(LogedUser))
+                var menu = new Menus();
+                while (menu.AdminMenu(logedUser))
                 { }
             }
-            else if (DatabaseConnection.CheckUserRole(LogedUser) == "Mod")
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Mod")
             {
-                var Menu = new Menus();
-                while (Menu.ModMenu(LogedUser));
+                var menu = new Menus();
+                while (menu.ModMenu(logedUser));
                 { }
             }
-            else if (DatabaseConnection.CheckUserRole(LogedUser) == "Loyal")
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Loyal")
             {
-                var Menu = new Menus();
-                while (Menu.LoyalMenu(LogedUser));
+                var menu = new Menus();
+                while (menu.LoyalMenu(logedUser));
                 { }
             }
-            else if (DatabaseConnection.CheckUserRole(LogedUser) == "Friend")
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Friend")
             {
-                var Menu = new Menus();
-                while(Menu.FriendMenu(LogedUser));
+                var menu = new Menus();
+                while(menu.FriendMenu(logedUser));
                 { }
             }
-            else if (DatabaseConnection.CheckUserRole(LogedUser) == "Guest")
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Guest")
             {
-                var Menu = new Menus();
-                while(Menu.GuestMenu(LogedUser));
+                var menu = new Menus();
+                while(menu.GuestMenu(logedUser));
                 { }
+            }
+            */
+        }
+
+        internal static void RoleMenu(string logedUser)
+        {
+
+            if (DatabaseConnection.CheckUserRole(logedUser) == "Admin")
+            {
+                var menu = new Menus();
+                while (menu.AdminActionsMenu(logedUser))
+                { }
+            }
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Mod")
+            {
+                var menu = new Menus();
+                while (menu.ModActionsMenu(logedUser)) ;
+                { }
+            }
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Loyal")
+            {
+                var menu = new Menus();
+                while (menu.LoyalActionsMenu(logedUser)) ;
+                { }
+            }
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Friend")
+            {
+                var menu = new Menus();
+                while (menu.FriendActionsMenu(logedUser)) ;
+                { }
+            }
+            else if (DatabaseConnection.CheckUserRole(logedUser) == "Guest")
+            {
+                Console.WriteLine("Your Role is Guest ... You dont have any Role Action's");
+
+                WelcomeScreen.ConsoleClear();
+
+                /*
+                var menu = new Menus();
+                while (menu.GuestMenu(logedUser)) ;
+                { }
+                */
             }
         }
 
@@ -53,19 +99,19 @@ namespace MyMessenger
             
             Console.WriteLine("Give me a username");
 
-            string Name = Console.ReadLine();
+            string name = Console.ReadLine();
 
-            while (DatabaseConnection.CheckAvailableName(Name))
+            while (DatabaseConnection.CheckAvailableName(name))
             {
                 Console.WriteLine("Give me Another Username \nor Type (e) to Restart the App");
-                Name = Console.ReadLine();
-                if (Name == "e")
+                name = Console.ReadLine();
+                if (name == "e")
                 {
                     Console.Clear();
                     return;
                 }
             }
-            DatabaseConnection.CreateUserDB(Name, Password.PasswordInsert());
+            DatabaseConnection.CreateUserDB(name, Password.PasswordInsert());
         }
 
         internal static void InsertUsernamePassword(out string LogedUser)
