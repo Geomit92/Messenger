@@ -3,20 +3,20 @@ using System.Threading;
 
 namespace MyMessenger
 {
-    public class Password
+    class Password
     {
-        public static string PasswordInsert()
+        internal static string PasswordInsert()
         {
-            
-            Console.WriteLine("Give me a Password");
+            Console.WriteLine("Give me a Password: ");
             string Password = HidePassword();
             while (PassCheck(Password))
             {
+                Console.Beep();
                 Console.WriteLine("Give me a Password Again...");
                 Password = HidePassword();
             }
 
-            Console.WriteLine("Give me your Password Again: ");
+            Console.WriteLine("Give me a Password Again: ");
             string Password1 = HidePassword();
 
             int Tries = 2;
@@ -39,7 +39,7 @@ namespace MyMessenger
             return Password;
         }
 
-        public static bool PassCheck(string Password)
+        internal static bool PassCheck(string Password)
         {
             Console.BackgroundColor = ConsoleColor.Red;
 
@@ -50,19 +50,18 @@ namespace MyMessenger
 
                 return true;
             }
-            if (Password.Contains(" "))
+            else if (Password.Contains(" "))
             {
                 Console.WriteLine("Password Cannot Contain Whitespaces. Try Again...");
                 Console.ResetColor();
 
                 return true;
             }
-            
             Console.ResetColor();
             return false;
         }
 
-        public static string HidePassword()
+        internal static string HidePassword()
         {
             string pass = null;
             ConsoleKeyInfo key;
@@ -72,7 +71,7 @@ namespace MyMessenger
                 if (key.Key != ConsoleKey.Backspace && key.Key != ConsoleKey.Enter)
                 {
                     pass += key.KeyChar;
-                    Console.Write("x");
+                    Console.Write("*");
                 }
                 else if (key.Key == ConsoleKey.Backspace && pass.Length > 0)
                 {

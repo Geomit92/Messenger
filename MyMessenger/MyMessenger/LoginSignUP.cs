@@ -5,10 +5,10 @@ namespace MyMessenger
 {
     class LoginSignUP
     {
-        public static void Login()
+        internal static void Login()
         {
             Console.Clear();
-            WelcomeScreen.WelcomeMethod1();
+            WelcomeScreen.WelcomeMethod();
 
             string LogedUser;
 
@@ -16,33 +16,42 @@ namespace MyMessenger
 
             if (DatabaseConnection.CheckUserRole(LogedUser) == "Admin")
             {
-                Menus.AdminMenu(LogedUser);
+                var Menu = new Menus();
+                while (Menu.AdminMenu(LogedUser))
+                { }
             }
             else if (DatabaseConnection.CheckUserRole(LogedUser) == "Mod")
             {
-                Menus.ModMenu(LogedUser);
+                var Menu = new Menus();
+                while (Menu.ModMenu(LogedUser));
+                { }
             }
             else if (DatabaseConnection.CheckUserRole(LogedUser) == "Loyal")
             {
-                Menus.LoyalMenu(LogedUser);
+                var Menu = new Menus();
+                while (Menu.LoyalMenu(LogedUser));
+                { }
             }
             else if (DatabaseConnection.CheckUserRole(LogedUser) == "Friend")
             {
-                Menus.FriendMenu(LogedUser);
+                var Menu = new Menus();
+                while(Menu.FriendMenu(LogedUser));
+                { }
             }
             else if (DatabaseConnection.CheckUserRole(LogedUser) == "Guest")
             {
-                Menus.GuestMenu(LogedUser);
+                var Menu = new Menus();
+                while(Menu.GuestMenu(LogedUser));
+                { }
             }
         }
 
-        public static void SignUp()
+        internal static void SignUp()
         {
             Console.Clear();
-            WelcomeScreen.WelcomeMethod1();
-
-            Console.WriteLine("Sign-Up");
-            Console.WriteLine("Give me Your username");
+            WelcomeScreen.WelcomeMethod();
+            
+            Console.WriteLine("Give me a username");
 
             string Name = Console.ReadLine();
 
@@ -52,14 +61,14 @@ namespace MyMessenger
                 Name = Console.ReadLine();
                 if (Name == "e")
                 {
+                    Console.Clear();
                     return;
                 }
             }
-
             DatabaseConnection.CreateUserDB(Name, Password.PasswordInsert());
         }
 
-        public static void InsertUsernamePassword(out string LogedUser)
+        internal static void InsertUsernamePassword(out string LogedUser)
         {
             Console.WriteLine("Give me your Username: ");
             string Username = Console.ReadLine();
@@ -71,7 +80,6 @@ namespace MyMessenger
             {
                 if (TriesUser >= 1)
                 {
-                    Console.WriteLine("This User doesn't exist. Try again...");
                     Console.WriteLine($"Remaining Tries: { TriesUser }");
                     TriesUser -= 1;
                     Username = Console.ReadLine();

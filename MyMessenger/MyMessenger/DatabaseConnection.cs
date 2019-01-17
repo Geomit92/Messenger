@@ -23,8 +23,6 @@ namespace MyMessenger
                         MessageId = ID
                     });
             }
-
-            Console.WriteLine("Message Edited.");
         }
 
         internal static bool CheckIDMessage(int ID, string user)
@@ -52,7 +50,7 @@ namespace MyMessenger
             return false;
         }
 
-        internal void SendMessageDB(string UserMessage, string Sender, string Receiver)
+        internal static void SendMessageDB(string UserMessage, string Sender, string Receiver)
         {
             using (SqlConnection dbcon = new SqlConnection(connectionstring))
             {
@@ -69,7 +67,8 @@ namespace MyMessenger
 
             TxtAccess.FileCreation(Sender, Receiver, UserMessage);
 
-            Console.WriteLine("Your Message Send Successfully");
+            Console.WriteLine("\nYour Message Send Successfully");
+
             WelcomeScreen.ConsoleClear();
         }
 
@@ -87,8 +86,7 @@ namespace MyMessenger
             }
             if (SendMessage.Count == 0)
             {
-                Console.WriteLine("No Message Loaded.");
-                Thread.Sleep(2500);
+                Console.WriteLine("\nNo Message Loaded.");
             }
             else
             {
@@ -97,9 +95,9 @@ namespace MyMessenger
                     if (m.Deleted == false)
                     {
                         Console.BackgroundColor = ConsoleColor.DarkBlue;
-                        Console.WriteLine($"{m.Sender} Send you:");
+                        Console.WriteLine($"\n{m.Sender} Send you:");
                         Console.ResetColor();
-                        Console.WriteLine($"{m.UserMessage} \nAt {m.Date.ToString("dd/MM HH:mm")}\n");
+                        Console.WriteLine($"{m.UserMessage} \nAt {m.Date.ToString("dd/MM HH:mm")}");
                     }
                 }
             }
@@ -125,7 +123,10 @@ namespace MyMessenger
             {
                 foreach (var m in ViewMessage)
                 {
-                    Console.WriteLine($"ID:{m.MessageID}: {m.Sender} Send: \n{m.UserMessage} \nAt {m.Receiver}\n");
+                    if (m.Deleted == false)
+                    {
+                        Console.WriteLine($"ID:{m.MessageID}: {m.Sender} Send: \n{m.UserMessage} \nAt {m.Receiver}\n");
+                    }
                 }
             }
         }
@@ -145,6 +146,7 @@ namespace MyMessenger
 
             if (ViewMessage.Count == 0)
             {
+                Console.WriteLine("\nNo Message Loaded.");
                 return true;
             }
             return false;
@@ -161,9 +163,7 @@ namespace MyMessenger
                         MessageId = ID
                     });
             }
-
-            Console.WriteLine("Message Deleted");
-            WelcomeScreen.ConsoleClear();
+            Console.WriteLine("\nMessage Deleted");
         }
 
         #endregion
@@ -200,12 +200,12 @@ namespace MyMessenger
             }
             foreach (var c in users)
             {
-                if (Username == c.Username && c.Deleted != true) //TO DO na to tsekarw -----------------------------------------
+                if (Username == c.Username && c.Deleted == false) //TO DO na to tsekarw -----------------------------------------
                 {
                     return false;
                 }
             }
-            // Console.WriteLine($"User: {Username} Doesn't Exist. Try Again...");
+            Console.WriteLine("This User Doesnt Exist... Try Again.");
             return true;
         }
 

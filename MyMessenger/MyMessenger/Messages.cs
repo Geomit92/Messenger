@@ -12,6 +12,5 @@ namespace MyMessenger
         public string Receiver { get; set; }
         public string UserMessage { get; set; }
         public Boolean Deleted { get; set; }
-
     }
 }

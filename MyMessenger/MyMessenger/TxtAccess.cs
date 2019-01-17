@@ -7,24 +7,33 @@ namespace MyMessenger
     {
         private static string TxtPath = Properties.Settings.Default.TxtPath;
 
-        public static void FileCreation(string sender,string receiver,string message)
+        internal static void FileCreation(string sender,string receiver,string message)
         {
             string TxtTittle = $"{sender} send to {receiver}.txt";
 
-            if (!File.Exists(TxtPath + TxtTittle))
+            try
             {
-                StreamWriter sw = File.CreateText(TxtPath + TxtTittle);
-                using (sw)
+                if (!File.Exists(TxtPath + TxtTittle))
                 {
-                    sw.WriteLine($"{message} at {System.DateTime.Now} \n");
+                    StreamWriter sw = File.CreateText(TxtPath + TxtTittle);
+                    using (sw)
+                    {
+                        sw.WriteLine($"{message} at {System.DateTime.Now} \n");
+                    }
+                }
+                else
+                {
+                    using (StreamWriter sw = new StreamWriter(TxtPath + TxtTittle, true))
+                    {
+                        sw.WriteLine($"{message} at {System.DateTime.Now} \n");
+                    }
                 }
             }
-            else
+            catch (IOException)
             {
-                using (StreamWriter sw = new StreamWriter(TxtPath + TxtTittle, true))
-                {
-                    sw.WriteLine($"{message} at {System.DateTime.Now} \n");
-                }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Something went Wrong with the creation of TXT files.");
+                Console.ResetColor();
             }
         }
     }
