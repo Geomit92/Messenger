@@ -117,6 +117,7 @@ namespace MyMessenger
             Console.ForegroundColor = ConsoleColor.Black;
             Console.WriteLine("\nApplication Will Close...\n");
             Thread.Sleep(2500);
+            Console.Beep();
             Environment.Exit(0);
         }
     }
