@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyMessenger
 {
@@ -45,7 +46,7 @@ namespace MyMessenger
             Console.WriteLine("2. Inbox");
             Console.WriteLine("3. Edit Your Message");
             Console.WriteLine("4. Delete Your Message");
-            Console.WriteLine("5. Moderation");
+            Console.WriteLine("5. Actions");
             Console.WriteLine("6. Log-Off");
 
             while (true)
@@ -109,7 +110,7 @@ namespace MyMessenger
                         return true;
 
                     case "2":
-                        DatabaseConnection.ShowAllUsersDB();
+                        DatabaseConnection.ShowAllUsers();
                         Console.Clear();
                         return true;
 
@@ -243,267 +244,6 @@ namespace MyMessenger
                 }
             }
         }
-
-
-        #region Shmeiwseis
-        /*
-         
-         
-        internal bool AdminMenu(string LogedUser)
-        {
-            WelcomeScreen.MiniWelc(LogedUser);
-
-            Console.WriteLine("1. Role Action's\n");
-            Console.WriteLine("2. Send Message");
-            Console.WriteLine("3. Inbox");
-            Console.WriteLine("4. Edit Your Message");
-            Console.WriteLine("5. Delete Your Message");
-            Console.WriteLine("6. Log-Off");
-
-            while (true)
-            {
-                switch (Console.ReadLine())
-                {
-                    case "1":
-                        Console.Clear();
-                        var Role = new Menus();
-                        while (Role.AdminActionsMenu(LogedUser))
-                        { }
-                        return true;
-
-                    case "2":
-                        MessagesActions.SendMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "3":
-                        MessagesActions.ViewMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "4":
-                        MessagesActions.EditMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "5":
-                        MessagesActions.DeleteMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "6":
-                        return false;
-
-                    default:
-                        Console.WriteLine("Your Input dont match , Choose Again...");
-                        break;
-                }
-            }
-        }
-
-        internal bool ModMenu(string LogedUser)
-        {
-            WelcomeScreen.MiniWelc(LogedUser);
-
-            Console.WriteLine("1. Role Action's\n");
-            Console.WriteLine("2. Send Message");
-            Console.WriteLine("3. Inbox");
-            Console.WriteLine("4. Edit Your Message");
-            Console.WriteLine("5. Delete Your Message");
-            Console.WriteLine("6. Log-Off");
-
-            while (true)
-            {
-                switch (Console.ReadLine())
-                {
-                    case "1":
-                        Console.Clear();
-                        var Role = new Menus();
-                        while (Role.ModActionsMenu(LogedUser))
-                        { }
-                        return true;
-
-                    case "2":
-                        MessagesActions.SendMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "3":
-                        MessagesActions.ViewMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "4":
-                        MessagesActions.EditMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "5":
-                        MessagesActions.DeleteMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "6":
-                        return false;
-
-                    default:
-                        Console.WriteLine("Your Input dont match , Choose Again...");
-                        break;
-                }
-            }
-        }
-
-        internal bool LoyalMenu(string LogedUser)
-        {
-            WelcomeScreen.MiniWelc(LogedUser);
-
-            Console.WriteLine("1. Role Action's\n");
-            Console.WriteLine("2. Send Message");
-            Console.WriteLine("3. Inbox");
-            Console.WriteLine("4. Edit Your Message");
-            Console.WriteLine("5. Delete Your Message");
-            Console.WriteLine("6. Log-Off");
-
-            while (true)
-            {
-                switch (Console.ReadLine())
-                {
-                    case "1":
-                        Console.Clear();
-                        var Role = new Menus();
-                        while (Role.LoyalActionsMenu(LogedUser))
-                        { }
-                        return true;
-
-                    case "2":
-                        MessagesActions.SendMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "3":
-                        MessagesActions.ViewMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "4":
-                        MessagesActions.EditMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "5":
-                        MessagesActions.DeleteMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "6":
-                        Console.Clear();
-                        return false;
-
-                    default:
-                        Console.WriteLine("Your Input dont match , Choose Again...");
-                        break;
-                }
-            }
-        }
-
-        internal bool FriendMenu(string LogedUser)
-        {
-            WelcomeScreen.MiniWelc(LogedUser);
-
-            Console.WriteLine("1. Role Action's\n");
-            Console.WriteLine("2. Send Message");
-            Console.WriteLine("3. Inbox");
-            Console.WriteLine("4. Edit Your Message");
-            Console.WriteLine("5. Delete Your Message");
-            Console.WriteLine("6. Log-Off");
-
-            while (true)
-            {
-                switch (Console.ReadLine())
-                {
-                    case "1":
-                        Console.Clear();
-                        var Role = new Menus();
-                        while (Role.FriendActionsMenu(LogedUser))
-                        { }
-                        return true;
-
-                    case "2":
-                        MessagesActions.SendMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "3":
-                        MessagesActions.ViewMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "4":
-                        MessagesActions.EditMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "5":
-                        MessagesActions.DeleteMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "6":
-                        Console.Clear();
-                        return false;
-
-                    default:
-                        Console.WriteLine("Your Input dont match , Choose Again...");
-                        break;
-                }
-            }
-        }
-
-        internal bool GuestMenu(string LogedUser)
-        {
-            WelcomeScreen.MiniWelc(LogedUser);
-            
-            Console.WriteLine("1. Send Message");
-            Console.WriteLine("2. Inbox");
-            Console.WriteLine("3. Edit Your Message");
-            Console.WriteLine("4. Delete Your Message");
-            Console.WriteLine("5. Log-Off");
-
-            while (true)
-            {
-                switch (Console.ReadLine())
-                {
-                    case "1":
-                        MessagesActions.SendMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "2":
-                        MessagesActions.ViewMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "3":
-                        MessagesActions.EditMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "4":
-                        MessagesActions.DeleteMessage(LogedUser);
-                        Console.Clear();
-                        return true;
-
-                    case "5":
-                        Console.Clear();
-                        return false;
-
-                    default:
-                        Console.WriteLine("Your Input dont match , Choose Again...");
-                        break;
-                }
-            }
-        }
-        */
-        #endregion
+        
     }
 }

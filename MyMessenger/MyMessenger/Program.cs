@@ -6,9 +6,13 @@ namespace MyMessenger
     {
         static void Main(string[] args)
         {
-            var menus = new Menus();
-            while(menus.LoginMenu())
-            {}
+            var CheckDB = new DatabaseConnection();
+            while (CheckDB.DbConn())
+            {
+                var menus = new Menus();
+                while (menus.LoginMenu())
+                { }
+            }
         }
     }
 }

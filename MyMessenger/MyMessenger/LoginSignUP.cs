@@ -16,39 +16,6 @@ namespace MyMessenger
             var menu = new Menus();
             while (menu.GeneralMenu(logedUser))
             { }
-
-            /*
-            if (DatabaseConnection.CheckUserRole(logedUser) == "Admin")
-            {
-                var menu = new Menus();
-                while (menu.AdminMenu(logedUser))
-                { }
-            }
-            else if (DatabaseConnection.CheckUserRole(logedUser) == "Mod")
-            {
-                var menu = new Menus();
-                while (menu.ModMenu(logedUser));
-                { }
-            }
-            else if (DatabaseConnection.CheckUserRole(logedUser) == "Loyal")
-            {
-                var menu = new Menus();
-                while (menu.LoyalMenu(logedUser));
-                { }
-            }
-            else if (DatabaseConnection.CheckUserRole(logedUser) == "Friend")
-            {
-                var menu = new Menus();
-                while(menu.FriendMenu(logedUser));
-                { }
-            }
-            else if (DatabaseConnection.CheckUserRole(logedUser) == "Guest")
-            {
-                var menu = new Menus();
-                while(menu.GuestMenu(logedUser));
-                { }
-            }
-            */
         }
 
         internal static void RoleMenu(string logedUser)
@@ -83,12 +50,6 @@ namespace MyMessenger
                 Console.WriteLine("Your Role is Guest ... You dont have any Role Action's");
 
                 WelcomeScreen.ConsoleClear();
-
-                /*
-                var menu = new Menus();
-                while (menu.GuestMenu(logedUser)) ;
-                { }
-                */
             }
         }
 
@@ -141,7 +102,7 @@ namespace MyMessenger
             Console.WriteLine("Give me your Password: ");
             string LogPassword = Password.HidePassword();
 
-            while (DatabaseConnection.checkForPassword(Username, LogPassword))
+            while (DatabaseConnection.CheckForPassword(Username, LogPassword))
             {
                 if (TriesPass >= 1)
                 {

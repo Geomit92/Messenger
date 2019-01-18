@@ -6,6 +6,8 @@ namespace MyMessenger
     {
         internal static void EditMessage()
         {
+            Console.Clear();
+
             string user;
             ViewMessageWithId(out user);
 
@@ -62,10 +64,7 @@ namespace MyMessenger
 
                 DatabaseConnection.EditMessageDB(ID, Message);
             }
-            else
-            {
-                Console.WriteLine("You dont have any Message...");
-            }
+
             WelcomeScreen.ConsoleClear();
         }
 
@@ -109,10 +108,6 @@ namespace MyMessenger
 
                 DatabaseConnection.DeleteMessageDB(ID);
             }
-            else
-            {
-                Console.WriteLine("You Dont Have any Message to Delete...");
-            }
 
             WelcomeScreen.ConsoleClear();
         }
@@ -151,6 +146,7 @@ namespace MyMessenger
             string user = Console.ReadLine();
             while (DatabaseConnection.CheckUserList(user) || DatabaseConnection.ViewForZeroMessage(user))
             {
+                Console.WriteLine("Select Again:");
                 user = Console.ReadLine();
             }
 
@@ -161,7 +157,6 @@ namespace MyMessenger
 
         internal static void ViewMessageWithId(out string user)
         {
-            Console.Clear();
 
             Console.WriteLine("Select A User: ");
             user = Console.ReadLine();

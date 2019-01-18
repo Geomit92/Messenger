@@ -191,26 +191,24 @@ namespace MyMessenger
             return "Guest";
         }
 
-        internal static bool CheckUserList(string Username)
+        internal static bool CheckUserList(string name)
         {
-            var users = new List<Users>();
+            var db = new DatabaseConnection();
+            bool check = db.SelectAllUsers()
+                .Any(u => u.Username == name && u.Deleted == false);
 
-            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            if (check == true)
             {
-                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users"));
+                return false;
             }
-            foreach (var c in users)
+            else
             {
-                if (Username == c.Username && c.Deleted == false)
-                {
-                    return false;
-                }
+                Console.WriteLine("This User Doesn't Exist... Try Again.");
+                return true;
             }
-            Console.WriteLine("This User Doesnt Exist... Try Again.");
-            return true;
         }
 
-        internal static bool checkForPassword(string Username, string Password)
+        internal static bool CheckForPassword(string Username, string Password)
         {
             var users = new List<Users>();
 
@@ -243,7 +241,6 @@ namespace MyMessenger
                         Password = NewPassword,
                         Role = "Guest",
                         Deleted = 0,
-
                     });
             }
 
@@ -253,22 +250,19 @@ namespace MyMessenger
             Thread.Sleep(2000);
         }
 
-        internal static void ShowAllUsersDB()
+        internal static void ShowAllUsers()
         {
-            var users = new List<Users>();
+            var db = new DatabaseConnection();
+            var users = db.SelectAllUsers()
+                .Where(x => x.Deleted == false)
+                .OrderBy(x => x.Role)
+                .ToList();
 
-            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            foreach (var user in users)
             {
-                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users"));
+                Console.WriteLine($"{user.Role}: {user.Username}");
             }
 
-            foreach (var u in users)
-            {
-                if (u.Deleted != true)
-                {
-                    Console.WriteLine($"User: {u.Username}, Role: {u.Role}");
-                }
-            }
             WelcomeScreen.ConsoleClear();
         }
 
@@ -381,6 +375,46 @@ namespace MyMessenger
             Console.ResetColor();
             return false;
         }
-        
+
+        internal List<Users> SelectAllUsers()
+        {
+            var user = new List<Users>();
+
+            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            {
+                user = dbcon.Query<Users>("SELECT * FROM Users").ToList();
+            }
+            return user;
+        }
+
+        internal bool DbConn()
+        {
+            try
+            {
+                using (SqlConnection dbcon = new SqlConnection(connectionstring))
+                {
+                    dbcon.Open();
+                    using (SqlCommand querry = new SqlCommand("SELECT * FROM sys.Databases where Name = 'Private_Messenger'", dbcon))
+                    {
+                        int Exist = querry.ExecuteNonQuery();
+
+                        if (Exist > 0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Something Went Wrong with DataBase");
+                WelcomeScreen.ConsoleClear();
+                return false;
+            }
+        }
     }
 }

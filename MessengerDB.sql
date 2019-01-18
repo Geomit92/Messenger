@@ -21,13 +21,10 @@ CREATE TABLE Messages(
 				
 );
 
-DROP TABLE Messages;
 
-DROP TABLE Users;
-
-
-INSERT INTO Users(Username,Password,Role,Deleted) VALUES ('Admin','Admin','Admin',0);
-INSERT INTO Users(Username,password,Role,Deleted) VALUES ('Mod','Mod','Mod',0);
-INSERT INTO Users(Username,password,Role,Deleted) VALUES ('Friend','Friend','Friend',0);
-INSERT INTO Users(Username,password,Role,Deleted) VALUES ('Guest','Guest','Guest',0);
+INSERT INTO Users(Username,Password,Role,Deleted) VALUES ('admin','admin','Admin',0);
+INSERT INTO Users(Username,password,Role,Deleted) VALUES ('mod','mod','Mod',0);
+INSERT INTO Users(Username,password,Role,Deleted) VALUES ('friend','friend','Friend',0);
+INSERT INTO Users(Username,password,Role,Deleted) VALUES ('loyal','loyal','Loyal',0);
+INSERT INTO Users(Username,password,Role,Deleted) VALUES ('guest','guest','Guest',0);
 
