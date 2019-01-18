@@ -33,7 +33,7 @@ namespace MyMessenger
 
             DatabaseConnection.EditMessageDB(ID, Message);
             Console.WriteLine("\nMessage Edited.");
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         internal static void EditMessage(string LogedUser)
@@ -65,7 +65,7 @@ namespace MyMessenger
                 DatabaseConnection.EditMessageDB(ID, Message);
             }
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         internal static void DeleteMessage()
@@ -109,7 +109,7 @@ namespace MyMessenger
                 DatabaseConnection.DeleteMessageDB(ID);
             }
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         internal static void SendMessage(string LogedUser)
@@ -135,7 +135,7 @@ namespace MyMessenger
         {
             DatabaseConnection.ViewMessageDB(LogedUser);
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         internal static void ViewMessage()
@@ -152,7 +152,7 @@ namespace MyMessenger
 
             DatabaseConnection.ViewMessageDB(user);
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         internal static void ViewMessageWithId(out string user)

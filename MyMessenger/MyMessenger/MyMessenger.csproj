@@ -69,7 +69,7 @@
     </Compile>
     <Compile Include="TxtAccess.cs" />
     <Compile Include="Users.cs" />
-    <Compile Include="WelcomeScreen.cs" />
+    <Compile Include="Design.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

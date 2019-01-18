@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MyMessenger
 {
@@ -9,7 +7,7 @@ namespace MyMessenger
         internal bool LoginMenu()
         {
                 Console.Clear();
-                WelcomeScreen.WelcomeMethod();
+                Design.WelcomeMethod();
             
                 Console.WriteLine("\n1. Login");
                 Console.WriteLine("2. Sign Up");
@@ -29,7 +27,7 @@ namespace MyMessenger
                         return true;
 
                     case "3":
-                        WelcomeScreen.ConsoleExit();
+                        Design.ConsoleExit();
                         return false;
 
                     default:
@@ -40,7 +38,7 @@ namespace MyMessenger
 
         internal bool GeneralMenu(string LogedUser)
         {
-            WelcomeScreen.MiniWelc(LogedUser);
+            Design.MiniWelc(LogedUser);
             
             Console.WriteLine("1. Send Message");
             Console.WriteLine("2. Inbox");
@@ -90,7 +88,7 @@ namespace MyMessenger
         
         internal bool AdminActionsMenu(string LogedUser)
         {
-            WelcomeScreen.AdminDesign();
+            Design.AdminDesign();
             
             Console.WriteLine("1. Create A User");
             Console.WriteLine("2.  View  All Users");
@@ -147,7 +145,7 @@ namespace MyMessenger
         internal bool ModActionsMenu(string LogedUser)
         {
             Console.Clear();
-            WelcomeScreen.ModDesign();
+            Design.ModDesign();
 
             Console.WriteLine("1.  View  --> A User's Messages");
             Console.WriteLine("2.  Edit  --> A User's Messages");
@@ -187,7 +185,7 @@ namespace MyMessenger
         internal bool LoyalActionsMenu(string LogedUser)
         {
             Console.Clear();
-            WelcomeScreen.LoyalDesign();
+            Design.LoyalDesign();
 
             Console.WriteLine("1.  View  --> A User's Messages");
             Console.WriteLine("2.  Edit  --> A User's Messages");
@@ -221,7 +219,7 @@ namespace MyMessenger
         internal bool FriendActionsMenu(string LogedUser)
         {
             Console.Clear();
-            WelcomeScreen.FriendDesign();
+            Design.FriendDesign();
 
             Console.WriteLine("1.  View  --> A User's Messages");
             Console.WriteLine("2. Return ");

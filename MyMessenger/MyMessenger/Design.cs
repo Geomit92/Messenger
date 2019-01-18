@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace MyMessenger
 {
-    class WelcomeScreen
+    class Design
     {
         #region Designs
 
@@ -113,7 +113,6 @@ ___  ___ _  _                _____
             Console.ForegroundColor = ConsoleColor.Black;
             Console.WriteLine("\nApplication Will Close...\n");
             Thread.Sleep(2500);
-            Console.Beep();
             Environment.Exit(0);
         }
     }

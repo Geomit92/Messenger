@@ -27,7 +27,7 @@ namespace MyMessenger
 
             DatabaseConnection.UpdateUsernameDB(NewUser, ID);
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         public static void UpdateUserPass()
@@ -41,7 +41,7 @@ namespace MyMessenger
             }
             DatabaseConnection.UpdateUserPassDB(Username, Password.PasswordInsert());
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         public static void DeleteUser()
@@ -56,7 +56,7 @@ namespace MyMessenger
 
             DatabaseConnection.DeleteUserDB(DeletedUser);
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
         
         public static void UpdateUserRole()
@@ -81,7 +81,7 @@ namespace MyMessenger
 
             DatabaseConnection.UpdateUserRoleDB(Username, UserRole);
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
     }
 }

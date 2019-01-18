@@ -70,7 +70,7 @@ namespace MyMessenger
 
             Console.WriteLine("\nYour Message Send Successfully");
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         internal static void ViewMessageDB(string Sender)
@@ -263,7 +263,7 @@ namespace MyMessenger
                 Console.WriteLine($"{user.Role}: {user.Username}");
             }
 
-            WelcomeScreen.ConsoleClear();
+            Design.ConsoleClear();
         }
 
         internal static void UsernameWithID(string Username, out int ID)
@@ -412,7 +412,7 @@ namespace MyMessenger
             catch (Exception)
             {
                 Console.WriteLine("Something Went Wrong with DataBase");
-                WelcomeScreen.ConsoleClear();
+                Design.ConsoleClear();
                 return false;
             }
         }

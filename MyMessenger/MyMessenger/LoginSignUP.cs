@@ -8,7 +8,7 @@ namespace MyMessenger
         internal static void Login()
         {
             Console.Clear();
-            WelcomeScreen.WelcomeMethod();
+            Design.WelcomeMethod();
 
             string logedUser;
             InsertUsernamePassword(out logedUser);
@@ -49,14 +49,14 @@ namespace MyMessenger
             {
                 Console.WriteLine("Your Role is Guest ... You dont have any Role Action's");
 
-                WelcomeScreen.ConsoleClear();
+                Design.ConsoleClear();
             }
         }
 
         internal static void SignUp()
         {
             Console.Clear();
-            WelcomeScreen.WelcomeMethod();
+            Design.WelcomeMethod();
             
             Console.WriteLine("Give me a username");
 
