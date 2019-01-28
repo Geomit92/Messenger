@@ -4,16 +4,27 @@ namespace MyMessenger
 {
     class MessagesActions : Messages
     {
-        internal static void EditMessage()
+        internal static void SendMessage(string LogedUser)
         {
-            Console.Clear();
+            Console.WriteLine("Do you want to send a Message to: ");
+            string ToUser = Console.ReadLine();
+            while (DatabaseConnection.CheckUserList(ToUser))
+            {
+                ToUser = Console.ReadLine();
+            }
 
-            string user;
-            ViewMessageWithId(out user);
+            Console.WriteLine("Write your Message: ");
+            string Message = Console.ReadLine();
+            while (Message.Length > 250)
+            {
+                Console.WriteLine("Your Message must be Under 250 Character. Try Again ...");
+                Message = Console.ReadLine();
+            }
+            DatabaseConnection.SendMessageDB(Message, LogedUser, ToUser);
+        }
 
-            Console.Write("Select An ID: ");
-
-            int ID;
+        internal static void CheckID(string user , out int ID)
+        {
             string stringID = Console.ReadLine();
             Int32.TryParse(stringID, out ID);
 
@@ -22,6 +33,17 @@ namespace MyMessenger
                 stringID = Console.ReadLine();
                 Int32.TryParse(stringID, out ID);
             }
+        }
+
+        internal static void EditMessage()
+        {
+            Console.Clear();
+            string user;
+            ViewMessageWithId(out user);
+
+            Console.Write("Select An ID: ");
+            int ID;
+            CheckID(user , out ID);
 
             Console.WriteLine("Edit Message: ");
             string Message = Console.ReadLine();
@@ -32,7 +54,6 @@ namespace MyMessenger
             }
 
             DatabaseConnection.EditMessageDB(ID, Message);
-            Console.WriteLine("\nMessage Edited.");
             Design.ConsoleClear();
         }
 
@@ -44,15 +65,7 @@ namespace MyMessenger
                     
                 Console.Write("Select An ID: ");
                 int ID;
-
-                string stringID = Console.ReadLine();
-                Int32.TryParse(stringID, out ID);
-
-                while (!DatabaseConnection.CheckIDMessage(ID, LogedUser))
-                {
-                    stringID = Console.ReadLine();
-                    Int32.TryParse(stringID, out ID);
-                }
+                CheckID(LogedUser, out ID);
 
                 Console.WriteLine("Edit Message: ");
                 string Message = Console.ReadLine();
@@ -74,16 +87,8 @@ namespace MyMessenger
             ViewMessageWithId(out user);
 
             Console.Write("Select An ID: ");
-
             int ID;
-            string stringID = Console.ReadLine();
-            Int32.TryParse(stringID, out ID);
-
-            while (!DatabaseConnection.CheckIDMessage(ID, user))
-            {
-                stringID = Console.ReadLine();
-                Int32.TryParse(stringID, out ID);
-            }
+            CheckID(user, out ID);
 
             DatabaseConnection.DeleteMessageDB(ID);
         }
@@ -95,45 +100,11 @@ namespace MyMessenger
                 DatabaseConnection.ViewMessageWithIdDB(LogedUser);
 
                 Console.Write("Select An ID: ");
-
                 int ID;
-                string stringID = Console.ReadLine();
-                Int32.TryParse(stringID, out ID);
-
-                while (!DatabaseConnection.CheckIDMessage(ID, LogedUser))
-                {
-                    stringID = Console.ReadLine();
-                    Int32.TryParse(stringID, out ID);
-                }
+                CheckID(LogedUser, out ID);
 
                 DatabaseConnection.DeleteMessageDB(ID);
             }
-
-            Design.ConsoleClear();
-        }
-
-        internal static void SendMessage(string LogedUser)
-        {
-            Console.WriteLine("Do you want to send a Message to: ");
-            string ToUser = Console.ReadLine();
-            while (DatabaseConnection.CheckUserList(ToUser))
-            {
-                ToUser = Console.ReadLine();
-            }
-
-            Console.WriteLine("Write your Message: ");
-            string Message = Console.ReadLine();
-            while (Message.Length > 250)
-            {
-                Console.WriteLine("Your Message must be Under 250 Character. Try Again ...");
-                Message = Console.ReadLine();
-            }
-            DatabaseConnection.SendMessageDB(Message, LogedUser, ToUser);
-        }
-
-        internal static void ViewMessage(string LogedUser)
-        {
-            DatabaseConnection.ViewMessageDB(LogedUser);
 
             Design.ConsoleClear();
         }
@@ -155,9 +126,15 @@ namespace MyMessenger
             Design.ConsoleClear();
         }
 
+        internal static void ViewMessage(string LogedUser)
+        {
+            DatabaseConnection.ViewMessageDB(LogedUser);
+
+            Design.ConsoleClear();
+        }
+
         internal static void ViewMessageWithId(out string user)
         {
-
             Console.WriteLine("Select A User: ");
             user = Console.ReadLine();
             while (DatabaseConnection.CheckUserList(user) || DatabaseConnection.ViewForZeroMessage(user))

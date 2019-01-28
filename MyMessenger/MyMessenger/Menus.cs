@@ -100,6 +100,8 @@ namespace MyMessenger
 
             while (true)
             {
+                var Admin = new AdminActions();
+
                 switch (Console.ReadLine())
                 {
                     case "1":
@@ -113,22 +115,22 @@ namespace MyMessenger
                         return true;
 
                     case "3":
-                        AdminActions.UpdateUsername();
+                        Admin.UpdateUsername();
                         Console.Clear();
                         return true;
 
                     case "4":
-                        AdminActions.UpdateUserPass();
+                        Admin.UpdateUserPass();
                         Console.Clear();
                         return true;
 
                     case "5":
-                        AdminActions.UpdateUserRole();
+                        Admin.UpdateUserRole();
                         Console.Clear();
                         return true;
 
                     case "6":
-                        AdminActions.DeleteUser();
+                        Admin.DeleteUser();
                         Console.Clear();
                         return true;
 

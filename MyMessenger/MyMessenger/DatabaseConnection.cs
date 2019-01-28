@@ -24,6 +24,7 @@ namespace MyMessenger
                         MessageId = ID
                     });
             }
+            Console.WriteLine("\nMessage Edited.");
         }
 
         internal static bool CheckIDMessage(int ID, string user)
@@ -211,18 +212,11 @@ namespace MyMessenger
         internal static bool CheckForPassword(string Username, string Password)
         {
             var db = new DatabaseConnection();
-            var users = db.SelectAllUsers()
+            var Pass = db.SelectAllUsers()
                 .Where(x => x.Username == Username)
-                .ToList();
+                .Any(x => x.Password != Password);
 
-            foreach (var user in users)
-            {
-                if (Password == user.Password)
-                {
-                    return false;
-                }
-            }
-            return true;
+            return Pass;
         }
 
         internal static void CreateUserDB(string NewUsername, string NewPassword)
@@ -330,16 +324,14 @@ namespace MyMessenger
         {
             Console.BackgroundColor = ConsoleColor.Red;
 
-            var Usernamelist = new List<Users>();
+            var db = new DatabaseConnection();
+            var users = db.SelectAllUsers()
+                .Where(x => x.Username == NewUsername)
+                .ToList();
 
-            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            foreach (var user in users)
             {
-                Usernamelist.AddRange(dbcon.Query<Users>("SELECT Username FROM Users"));
-            }
-
-            foreach (var c in Usernamelist)
-            {
-                if (NewUsername == c.Username)
+                if (NewUsername == user.Username)
                 {
                     Console.WriteLine("This Username Already Taken. Try Again...");
                     Console.ResetColor();
