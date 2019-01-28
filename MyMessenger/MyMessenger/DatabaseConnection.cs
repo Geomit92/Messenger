@@ -210,19 +210,14 @@ namespace MyMessenger
 
         internal static bool CheckForPassword(string Username, string Password)
         {
-            var users = new List<Users>();
+            var db = new DatabaseConnection();
+            var users = db.SelectAllUsers()
+                .Where(x => x.Username == Username)
+                .ToList();
 
-            using (SqlConnection dbcon = new SqlConnection(connectionstring))
+            foreach (var user in users)
             {
-                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users WHERE Username = @Username",
-                    new
-                    {
-                        Username = Username,
-                    }));
-            }
-            foreach (var u in users)
-            {
-                if (Password == u.Password)
+                if (Password == user.Password)
                 {
                     return false;
                 }
@@ -266,27 +261,18 @@ namespace MyMessenger
             Design.ConsoleClear();
         }
 
-        internal static void UsernameWithID(string Username, out int ID)
+        internal static void UsernameWithID(string Username, out IEnumerable<int> ID)
         {
-            ID = 0;
-            var users = new List<Users>();
+            ID = null;
+            var db = new DatabaseConnection();
+            var IdDB = db.SelectAllUsers()
+                .Where(x => x.Username == Username)
+                .Select(x => x.UsernameID);
 
-            using (SqlConnection dbcon = new SqlConnection(connectionstring))
-            {
-                users.AddRange(dbcon.Query<Users>("SELECT * FROM Users WHERE Username = @Username",
-                    new
-                    {
-                        Username = Username,
-                    }));
-            }
-
-            foreach (var u in users)
-            {
-                ID = u.UsernameID;
-            }
+            ID = IdDB;
         }
 
-        internal static void UpdateUsernameDB(string NewUser, int ID)
+        internal static void UpdateUsernameDB(string NewUser, IEnumerable<int> ID)
         {
             using (SqlConnection dbcon = new SqlConnection(connectionstring))
             {

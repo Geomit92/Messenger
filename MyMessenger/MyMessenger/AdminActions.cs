@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MyMessenger
 {
@@ -22,7 +23,7 @@ namespace MyMessenger
                 NewUser = Console.ReadLine();
             }
 
-            int ID;
+            IEnumerable<int> ID;
             DatabaseConnection.UsernameWithID(User, out ID);
 
             DatabaseConnection.UpdateUsernameDB(NewUser, ID);
@@ -50,7 +51,7 @@ namespace MyMessenger
             string DeletedUser = Console.ReadLine();
             while (DatabaseConnection.CheckUserList(DeletedUser))
             {
-                Console.WriteLine("This User Doesn't Exist. Try Again...");
+                //Console.WriteLine("This User Doesn't Exist. Try Again...");
                 DeletedUser = Console.ReadLine();
             }
 

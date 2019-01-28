@@ -30,22 +30,22 @@ namespace MyMessenger
             else if (DatabaseConnection.CheckUserRole(logedUser) == "Mod")
             {
                 var menu = new Menus();
-                while (menu.ModActionsMenu(logedUser)) ;
+                while (menu.ModActionsMenu(logedUser)) 
                 { }
             }
             else if (DatabaseConnection.CheckUserRole(logedUser) == "Loyal")
             {
                 var menu = new Menus();
-                while (menu.LoyalActionsMenu(logedUser)) ;
+                while (menu.LoyalActionsMenu(logedUser))
                 { }
             }
             else if (DatabaseConnection.CheckUserRole(logedUser) == "Friend")
             {
                 var menu = new Menus();
-                while (menu.FriendActionsMenu(logedUser)) ;
+                while (menu.FriendActionsMenu(logedUser))
                 { }
             }
-            else if (DatabaseConnection.CheckUserRole(logedUser) == "Guest")
+            else //if (DatabaseConnection.CheckUserRole(logedUser) == "Guest")
             {
                 Console.WriteLine("Your Role is Guest ... You dont have any Role Action's");
 

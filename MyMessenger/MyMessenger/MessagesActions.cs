@@ -150,7 +150,7 @@ namespace MyMessenger
                 user = Console.ReadLine();
             }
 
-            DatabaseConnection.ViewMessageDB(user);
+            DatabaseConnection.ViewMessageWithIdDB(user);
 
             Design.ConsoleClear();
         }
